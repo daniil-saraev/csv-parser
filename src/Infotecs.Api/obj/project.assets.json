@@ -230,11 +230,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\VS PROJECTS\\infotecs-test\\Infotecs.Api\\Infotecs.Api.csproj",
+      "projectUniqueName": "D:\\Documents\\VS PROJECTS\\infotecs-test\\src\\Infotecs.Api\\Infotecs.Api.csproj",
       "projectName": "Infotecs.Api",
-      "projectPath": "D:\\Documents\\VS PROJECTS\\infotecs-test\\Infotecs.Api\\Infotecs.Api.csproj",
+      "projectPath": "D:\\Documents\\VS PROJECTS\\infotecs-test\\src\\Infotecs.Api\\Infotecs.Api.csproj",
       "packagesPath": "C:\\Users\\sarae\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\VS PROJECTS\\infotecs-test\\Infotecs.Api\\obj\\",
+      "outputPath": "D:\\Documents\\VS PROJECTS\\infotecs-test\\src\\Infotecs.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Programs\\Visual Studio\\Shared\\NuGetPackages"
