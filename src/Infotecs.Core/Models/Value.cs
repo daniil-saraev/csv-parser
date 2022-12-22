@@ -1,3 +1,5 @@
+using Infotecs.Core.Validation;
+
 namespace Infotecs.Core.Models;
 
 public class Value : Entity
@@ -5,14 +7,17 @@ public class Value : Entity
     public Result Result { get; private set; } = null!;
     public string ResultId { get; private set; } = null!;
     public DateTime DateTime { get; }
-    public int TimeSeconds { get; }
+    public int ExecutionTimeSeconds { get; }
     public double Indicator { get; }
     public string FileName { get; }
 
-    public Value(DateTime dateTime, int seconds, double indicator, string fileName) : base()
+    public Value(DateTime dateTime, int executionTimeSeconds, double indicator, string fileName) : base()
     {
+        Check.DateTime(dateTime);
+        Check.ExecutionTime(executionTimeSeconds);
+        Check.Indicator(indicator);
         DateTime = dateTime;
-        TimeSeconds = seconds;
+        ExecutionTimeSeconds = executionTimeSeconds;
         Indicator = indicator;
         FileName = fileName;
     }

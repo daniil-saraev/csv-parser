@@ -7,7 +7,7 @@ namespace Infotecs.Core.Services;
 
 public class ResultService : IResultService
 {
-    public Task<Result> ComputeResult(IEnumerable<Value> values)
+    public Result ComputeResult(IEnumerable<Value> values)
     {
         ImmutableList<Value> immutableValues = values.ToImmutableList();
         int allTime = new(), 
@@ -29,7 +29,7 @@ public class ResultService : IResultService
                 () => maxIndicator = GetMaxIndicator(immutableValues),
                 () => rowCount = CountRows(immutableValues));
 
-        Result result = new Result(
+        return new Result(
             values,
             allTime,
             minDateTime,
@@ -39,17 +39,16 @@ public class ResultService : IResultService
             minIndicator,
             maxIndicator,
             rowCount);
-        return Task.FromResult(result);
     }
 
     private int ComputeAllTimeSeconds(ImmutableList<Value> values) =>
-        values.Max(value => value.TimeSeconds) - values.Min(value => value.TimeSeconds);
+        values.Max(value => value.ExecutionTimeSeconds) - values.Min(value => value.ExecutionTimeSeconds);
 
     private DateTime GetMinDateTime(ImmutableList<Value> values) =>
         values.Min(value => value.DateTime);
 
     private double ComputeAverageExecutionTime(ImmutableList<Value> values) =>
-        values.Average(value => value.TimeSeconds);
+        values.Average(value => value.ExecutionTimeSeconds);
 
     private double ComputeAverageIndicator(ImmutableList<Value> values) =>
         values.Average(value => value.Indicator);

@@ -4,5 +4,5 @@ namespace Infotecs.Core.Interfaces;
 
 public interface IResultService
 {
-    Task<Result> ComputeResult(IEnumerable<Value> values);
+    Result ComputeResult(IEnumerable<Value> values);
 }
