@@ -28,13 +28,13 @@ internal class ExceptionHandler
             string result;
             switch(exception)
             {
-                case ValidationException validationException:
+                case ValidationException:
                     code = HttpStatusCode.BadRequest;
                     result = exception.Message;
                     break;
                 default:
                     code = HttpStatusCode.InternalServerError;
-                    result = string.Empty;
+                    result = exception.Message;
                     break;
             }
             context.Response.ContentType = "application/json";

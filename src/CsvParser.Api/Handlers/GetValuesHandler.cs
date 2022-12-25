@@ -19,12 +19,13 @@ internal class GetValuesHandler : IRequestHandler<GetValuesByFileName, SelectedV
     public async Task<SelectedValues> Handle(GetValuesByFileName request, CancellationToken cancellationToken)
     {
         var values = await _repository.GetEntitiesAsync(
-            value => value.FileName == request.FileName
+            value => value.FileName == request.FileName,
+            cancellationToken
         );
         return CreateResponse(values);
     }
 
-    private SelectedValues CreateResponse(IEnumerable<Value> values)
+    private SelectedValues CreateResponse(IEnumerable<Value>? values)
     {
         if(values == null)
             return new SelectedValues { Values = new List<ValueDto>() };

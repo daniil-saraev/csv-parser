@@ -58,7 +58,7 @@ internal class GetResultsHandler : IRequestHandler<GetResultsByAverageExecutionT
         return CreateResponse(results);
     }
 
-    private SelectedResults CreateResponse(IEnumerable<Result> results)
+    private SelectedResults CreateResponse(IEnumerable<Result>? results)
     {
         if(results == null)
             return new SelectedResults { Results = new List<ResultDto>() };

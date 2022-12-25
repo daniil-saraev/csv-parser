@@ -32,6 +32,6 @@ internal class CsvService : ICsvService
             await _resultsRepository.DeleteEntitiesAsync(new[] { existingResult }, cancellationToken);
         
         await _valuesRepository.AddEntitiesAsync(values, cancellationToken);
-        await _resultsRepository.AddEntitiesAsync(new[] { result });
+        await _resultsRepository.AddEntitiesAsync(new[] { result }, cancellationToken);
     }
 }
