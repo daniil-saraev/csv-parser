@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvParser.Api", "src\CsvPar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvParser.Core", "src\CsvParser.Core\CsvParser.Core.csproj", "{ABCE57C7-F6CA-42B5-A81E-88DD9B3900A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvParser.Persistence", "src\CsvParser.Persistence\CsvParser.Persistence.csproj", "{C5D2E187-57D8-4CD4-B758-B8C5B6C833EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvParser.Persistence", "src\CsvParser.Persistence\CsvParser.Persistence.csproj", "{C5D2E187-57D8-4CD4-B758-B8C5B6C833EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

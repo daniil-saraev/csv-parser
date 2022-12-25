@@ -20,9 +20,10 @@ namespace CsvParser.Persistence.Services
             await _dataContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteEntitiesAsync(Predicate<T> predicate, CancellationToken cancellationToken = default)
+        public async Task DeleteEntitiesAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
-            await _dataContext.Set<T>().Where(entity => predicate(entity)).ExecuteDeleteAsync(cancellationToken);
+            _dataContext.Set<T>().RemoveRange(entities);
+            await _dataContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<T>> GetEntitiesAsync(Predicate<T>? predicate = null, CancellationToken cancellationToken = default)
@@ -31,12 +32,6 @@ namespace CsvParser.Persistence.Services
                 return await _dataContext.Set<T>().Where(entity => predicate(entity)).ToListAsync(cancellationToken);
             else
                 return await _dataContext.Set<T>().ToListAsync(cancellationToken);
-        }
-
-        public async Task UpdateEntitiesAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
-        {
-            _dataContext.Set<T>().UpdateRange(entities);
-            await _dataContext.SaveChangesAsync();
         }
     }
 }

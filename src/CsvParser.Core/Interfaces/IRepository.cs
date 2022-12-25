@@ -8,7 +8,5 @@ public interface IRepository<T> where T : Entity
 
     Task AddEntitiesAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
-    Task UpdateEntitiesAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
-
-    Task DeleteEntitiesAsync(Predicate<T> predicate, CancellationToken cancellationToken = default);
+    Task DeleteEntitiesAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 }

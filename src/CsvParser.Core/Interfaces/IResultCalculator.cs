@@ -2,7 +2,7 @@ using CsvParser.Core.Models;
 
 namespace CsvParser.Core.Interfaces;
 
-public interface IResultService
+internal interface IResultCalculator
 {
     Result ComputeResult(IEnumerable<Value> values, string fileName);
 }

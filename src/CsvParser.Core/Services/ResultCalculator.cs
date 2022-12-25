@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace CsvParser.Core.Services;
 
-public class ResultService : IResultService
+internal class ResultCalculator : IResultCalculator
 {
     public Result ComputeResult(IEnumerable<Value> values, string fileName)
     {
@@ -13,7 +13,7 @@ public class ResultService : IResultService
         int allTime = new(),
             rowCount = new();
         DateTime minDateTime = new();
-        double averageExecutionTime = new(),
+        float averageExecutionTime = new(),
             averageIndicator = new(),
             indicatorMedian = new(),
             minIndicator = new(),
@@ -31,7 +31,6 @@ public class ResultService : IResultService
 
         return new Result(
             fileName,
-            values,
             allTime,
             minDateTime,
             averageExecutionTime,
@@ -39,7 +38,8 @@ public class ResultService : IResultService
             indicatorMedian,
             minIndicator,
             maxIndicator,
-            rowCount);
+            rowCount) 
+            { Values = values};
     }
 
     private int ComputeAllTimeSeconds(ImmutableList<Value> values) =>
@@ -48,19 +48,19 @@ public class ResultService : IResultService
     private DateTime GetMinDateTime(ImmutableList<Value> values) =>
         values.Min(value => value.DateTime);
 
-    private double ComputeAverageExecutionTime(ImmutableList<Value> values) =>
-        values.Average(value => value.ExecutionTimeSeconds);
+    private float ComputeAverageExecutionTime(ImmutableList<Value> values) =>
+        ((float)values.Average(value => value.ExecutionTimeSeconds));
 
-    private double ComputeAverageIndicator(ImmutableList<Value> values) =>
+    private float ComputeAverageIndicator(ImmutableList<Value> values) =>
         values.Average(value => value.Indicator);
 
-    private double ComputeIndicatorMedian(ImmutableList<Value> values) =>
+    private float ComputeIndicatorMedian(ImmutableList<Value> values) =>
         values.Select(value => value.Indicator).Median();
 
-    private double GetMaxIndicator(ImmutableList<Value> values) =>
+    private float GetMaxIndicator(ImmutableList<Value> values) =>
         values.Max(value => value.Indicator);
 
-    private double GetMinIndicator(ImmutableList<Value> values) =>
+    private float GetMinIndicator(ImmutableList<Value> values) =>
         values.Min(value => value.Indicator);
 
     private int CountRows(ImmutableList<Value> values) =>

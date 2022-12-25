@@ -1,25 +1,56 @@
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
+using CsvParser.Persistence.Configuration;
+using CsvParser.Core.Configuration;
+using CsvParser.Core.Interfaces;
+using CsvParser.Api.Services;
+using MediatR;
+using CsvParser.Api.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+CsvFormatConfiguration configuration = new CsvFormatConfiguration();
+builder.Configuration.Bind("CsvFormat", configuration);
+builder.Services.AddSingleton(configuration);
+
+builder.Services.AddCoreServices();
+builder.Services.AddPersistence(builder.Configuration.GetConnectionString("CsvParserDb"));
+builder.Services.AddScoped<IErrorLogService, ErrorLogService>();
+
+builder.Services.AddMediatR(configuration => 
+{
+    configuration.AsScoped();
+}, Assembly.GetExecutingAssembly());
+
+
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var path = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(path);
+
+    options.CustomOperationIds(info =>
+    {
+        return info.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
+    });
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseMiddleware<ExceptionHandler>();
+app.UseCleanDatabase();
+
+app.UseSwagger();
+app.UseSwaggerUI(c => 
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.DisplayOperationId();
+    c.DisplayRequestDuration();
+});
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

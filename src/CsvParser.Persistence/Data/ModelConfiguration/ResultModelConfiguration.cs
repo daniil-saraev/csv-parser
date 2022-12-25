@@ -17,19 +17,19 @@ internal class ResultModelConfiguration : IEntityTypeConfiguration<Result>
             .HasColumnType("DATETIME2(0)");
         builder.Property(result => result.AverageExecutionTimeSeconds)
             .IsRequired()
-            .HasColumnType("REAL");
+            .HasColumnType("DECIMAL(10,4)");
         builder.Property(result => result.IndicatorAverage)
             .IsRequired()
-            .HasColumnType("REAL");
+            .HasColumnType("DECIMAL(10,4)");
         builder.Property(result => result.IndicatorMedian)
             .IsRequired()
-            .HasColumnType("REAL");
+            .HasColumnType("DECIMAL(10,4)");
         builder.Property(result => result.IndicatorMinimum)
             .IsRequired()
-            .HasColumnType("REAL");
+            .HasColumnType("DECIMAL(10,4)");
         builder.Property(result => result.IndicatorMaximum)
             .IsRequired()
-            .HasColumnType("REAL");
+            .HasColumnType("DECIMAL(10,4)");
         builder.Property(result => result.RowCount)
             .IsRequired();
     }

@@ -1,8 +1,6 @@
-using CsvParser.Core.Models;
-
 namespace CsvParser.Core.Interfaces;
 
 public interface ICsvService
 {
-    IEnumerable<Value> ReadValuesFromCsv(Stream stream);
+    public Task ProcessCsv(Stream stream, string fileName, IErrorLogService logService, CancellationToken cancellationToken = default);
 }

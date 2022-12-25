@@ -7,7 +7,7 @@ internal static class Check
     private static DateTime MIN_DATE_TIME => new(2000, 1, 1);
     private static DateTime MAX_DATE_TIME => System.DateTime.Now;
     private static int MIN_EXECUTION_TIME => 0;
-    private static double MIN_INDICATOR_VALUE => 0;
+    private static int MIN_INDICATOR_VALUE => 0;
     private static int MAX_ROW_COUNT => 10000;
     private static int MIN_ROW_COUNT => 1;
 

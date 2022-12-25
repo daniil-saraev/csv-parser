@@ -1,59 +1,37 @@
-﻿using CsvHelper;
-using CsvHelper.Configuration;
-using CsvParser.Core.Configuration;
 using CsvParser.Core.Interfaces;
 using CsvParser.Core.Models;
-using CsvParser.Core.Validation;
-using System.Globalization;
-using ValidationException = CsvParser.Core.Exceptions.ValidationException;
 
 namespace CsvParser.Core.Services;
 
-public class CsvService : ICsvService
+internal class CsvService : ICsvService
 {
-    private readonly ILoggerService<CsvService> _logger;
-    private readonly CsvFormatConfiguration _formatConfig;
-    private readonly CsvConfiguration _readerConfig;
+    private readonly IValuesParser _valuesParser;
+    private readonly IResultCalculator _resultCalculator;
+    private readonly IRepository<Result> _resultsRepository;
+    private readonly IRepository<Value> _valuesRepository;
 
-    public CsvService(CsvFormatConfiguration configuration, ILoggerService<CsvService> logger)
+    public CsvService(IValuesParser valuesParser, 
+                    IResultCalculator resultCalculator, 
+                    IRepository<Result> resultsRepository,
+                    IRepository<Value> valuesRepository)
     {
-        _formatConfig = configuration;
-        _logger = logger;
-        _readerConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = _formatConfig.HasHeaders,
-            Delimiter = _formatConfig.Delimiter,
-        };
+        _valuesParser = valuesParser;
+        _resultCalculator = resultCalculator;
+        _resultsRepository = resultsRepository;
+        _valuesRepository = valuesRepository;
+        _resultsRepository = resultsRepository;
     }
 
-    public IEnumerable<Value> ReadValuesFromCsv(Stream stream)
+    public async Task ProcessCsv(Stream stream, string fileName, IErrorLogService logService, CancellationToken cancellationToken = default)
     {
-        using (var streamReader = new StreamReader(stream))
-        using (var csvReader = new CsvReader(streamReader, _readerConfig))
-        {
-            var values = new List<Value>();
-            while (csvReader.Read())
-            {
-                Check.RowCount(csvReader.Parser.Row);
-                TryAddNewValue(values, csvReader);
-            }
-            return values;
-        }
-    }
-
-    private void TryAddNewValue(List<Value> values, CsvReader csvReader)
-    {
-        try
-        {
-            var value = new Value(
-                DateTime.ParseExact(csvReader.GetField<string>(0), _formatConfig.DateTimeFormat, CultureInfo.InvariantCulture),
-                csvReader.GetField<int>(1),
-                csvReader.GetField<double>(2));
-            values.Add(value);
-        }
-        catch (ValidationException ex)
-        {
-            _logger.LogError(ex.Message, $"Row {csvReader.Parser.Row}");
-        }
+        var values = _valuesParser.ReadValuesFromCsv(stream, fileName, logService);
+        var result = _resultCalculator.ComputeResult(values, fileName);
+        var existingResult = (await _resultsRepository.GetEntitiesAsync(result => result.FileName == fileName, cancellationToken))
+                                .FirstOrDefault();
+        if(existingResult != null)
+            await _resultsRepository.DeleteEntitiesAsync(new[] { existingResult }, cancellationToken);
+        
+        await _valuesRepository.AddEntitiesAsync(values, cancellationToken);
+        await _resultsRepository.AddEntitiesAsync(new[] { result });
     }
 }
