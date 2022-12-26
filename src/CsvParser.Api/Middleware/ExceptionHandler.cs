@@ -1,44 +1,45 @@
 using System.Net;
+using System.Net.Mime;
 using CsvParser.Core.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CsvParser.Api.Middleware;
 
 internal class ExceptionHandler
 {
     private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionHandler> _logger;
 
-        public ExceptionHandler(RequestDelegate next) =>
-            _next = next;
+    public ExceptionHandler(RequestDelegate next, ILogger<ExceptionHandler> logger)
+    {
+        _next = next;
+        _logger = logger;
+    }
 
-        public async Task Invoke(HttpContext context)
+    public async Task Invoke(HttpContext context)
+    {
+        try
         {
-            try
-            {
-                await _next(context);
-            }
-            catch(Exception exception)
-            {
-                await HandleExceptionAsync(context, exception);
-            }
+            await _next(context);
         }
-
-        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        catch(Exception exception)
         {
-            HttpStatusCode code;
-            string result;
-            switch(exception)
-            {
-                case ValidationException:
-                    code = HttpStatusCode.BadRequest;
-                    result = exception.Message;
-                    break;
-                default:
-                    code = HttpStatusCode.InternalServerError;
-                    result = exception.Message;
-                    break;
-            }
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)code;
-            return context.Response.WriteAsync(result);
+            _logger.LogError(exception, null);
+            await HandleExceptionAsync(context, exception);
         }
+    }
+
+    private Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        switch (exception)
+        {
+            case ValidationException:
+                context.Response.ContentType = MediaTypeNames.Application.Json;
+                var badResult = new BadRequestObjectResult(exception.Message);
+                return context.Response.WriteAsJsonAsync(badResult);
+            default:
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return context.Response.StartAsync();
+        }     
+    }
 }

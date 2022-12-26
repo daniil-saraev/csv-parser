@@ -4,7 +4,7 @@ namespace CsvParser.Core.Interfaces;
 
 public interface IRepository<T> where T : Entity
 {
-    Task<IEnumerable<T>> GetEntitiesAsync(Predicate<T>? predicate = null, CancellationToken cancellationToken = default);
+    Task<IEnumerable<T>> GetEntitiesAsync(Func<T, bool>? predicate = null, CancellationToken cancellationToken = default);
 
     Task AddEntitiesAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 

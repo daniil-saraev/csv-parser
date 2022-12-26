@@ -8,30 +8,32 @@ internal class CsvService : ICsvService
     private readonly IValuesParser _valuesParser;
     private readonly IResultCalculator _resultCalculator;
     private readonly IRepository<Result> _resultsRepository;
-    private readonly IRepository<Value> _valuesRepository;
+    private readonly IErrorLogService _logService;
 
     public CsvService(IValuesParser valuesParser, 
                     IResultCalculator resultCalculator, 
                     IRepository<Result> resultsRepository,
-                    IRepository<Value> valuesRepository)
+                    IErrorLogService errorLogService)
     {
         _valuesParser = valuesParser;
         _resultCalculator = resultCalculator;
         _resultsRepository = resultsRepository;
-        _valuesRepository = valuesRepository;
         _resultsRepository = resultsRepository;
+        _logService = errorLogService;
     }
 
-    public async Task ProcessCsv(Stream stream, string fileName, IErrorLogService logService, CancellationToken cancellationToken = default)
+    public async Task<int> ProcessCsv(Stream stream, string fileName, CancellationToken cancellationToken = default)
     {
-        var values = _valuesParser.ReadValuesFromCsv(stream, fileName, logService);
+        var values = _valuesParser.ReadValuesFromCsv(stream, _logService);
         var result = _resultCalculator.ComputeResult(values, fileName);
-        var existingResult = (await _resultsRepository.GetEntitiesAsync(result => result.FileName == fileName, cancellationToken))
-                                .FirstOrDefault();
-        if(existingResult != null)
+
+        var existingResult = (await _resultsRepository.GetEntitiesAsync(
+            result => result.FileName == fileName, cancellationToken))
+            .FirstOrDefault();
+        if (existingResult != null)
             await _resultsRepository.DeleteEntitiesAsync(new[] { existingResult }, cancellationToken);
-        
-        await _valuesRepository.AddEntitiesAsync(values, cancellationToken);
         await _resultsRepository.AddEntitiesAsync(new[] { result }, cancellationToken);
+        
+        return _logService.ErrorCount;
     }
 }

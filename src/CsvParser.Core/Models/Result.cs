@@ -22,7 +22,7 @@ public class Result : Entity
         float indicatorMedian,
         float indicatorMinimum,
         float indicatorMaximum,
-        int rowCount) : base()
+        int rowCount)
     {
         FileName = fileName;
         AllTimeSeconds = allTimeSeconds;

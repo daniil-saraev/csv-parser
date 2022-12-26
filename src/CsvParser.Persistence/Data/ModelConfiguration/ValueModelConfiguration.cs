@@ -9,6 +9,7 @@ internal class ValueModelConfiguration : IEntityTypeConfiguration<Value>
     public void Configure(EntityTypeBuilder<Value> builder)
     {
         builder.HasKey(value => value.Id);
+        builder.Property(value => value.Id).HasDefaultValueSql("NEWID()");
         builder.HasIndex(value => value.FileName);
         builder.Property(value => value.DateTime)
             .IsRequired()
@@ -17,10 +18,6 @@ internal class ValueModelConfiguration : IEntityTypeConfiguration<Value>
         builder.Property(value => value.Indicator)
             .IsRequired()
             .HasColumnType("DECIMAL(10,4)");
-        builder.HasOne(value => value.Result)
-            .WithMany(result => result.Values)
-            .HasForeignKey(value => value.ResultId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 

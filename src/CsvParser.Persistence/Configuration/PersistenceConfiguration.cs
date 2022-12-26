@@ -34,4 +34,14 @@ public static class PersistenceConfiguration
             dbContext.Database.EnsureCreated();
         }
     }
+
+    public static void UseExistingDatabase(this IHost host)
+    {
+        using (var scope = host.Services.CreateScope())
+        {
+            var scopedProvider = scope.ServiceProvider;
+            var dbContext = scopedProvider.GetRequiredService<DataContext>();
+            dbContext.Database.EnsureCreated();
+        }
+    }
 }

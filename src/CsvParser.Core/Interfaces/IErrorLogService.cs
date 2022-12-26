@@ -1,8 +1,10 @@
-﻿namespace CsvParser.Core.Interfaces;
+﻿using CsvParser.Core.Exceptions;
+
+namespace CsvParser.Core.Interfaces;
 
 public interface IErrorLogService
 {
-    void LogError(string message, params object[] args);
+    void LogParsingError(ValidationException exception);
 
-    IEnumerable<string> Errors { get; }
+    int ErrorCount { get; }
 }

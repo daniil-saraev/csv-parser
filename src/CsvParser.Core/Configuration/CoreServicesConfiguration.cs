@@ -9,6 +9,7 @@ namespace CsvParser.Core.Configuration
         public static void AddCoreServices(this IServiceCollection services)
         {
             services.AddScoped<ICsvService, CsvService>();
+            services.AddScoped<IErrorLogService, ErrorLogService>();
             services.AddSingleton<IValuesParser, ValuesParser>();
             services.AddSingleton<IResultCalculator, ResultCalculator>();
         }

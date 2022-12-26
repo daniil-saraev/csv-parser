@@ -2,8 +2,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using CsvParser.Persistence.Configuration;
 using CsvParser.Core.Configuration;
-using CsvParser.Core.Interfaces;
-using CsvParser.Api.Services;
 using MediatR;
 using CsvParser.Api.Middleware;
 
@@ -18,7 +16,6 @@ builder.Services.AddSingleton(configuration);
 
 builder.Services.AddCoreServices();
 builder.Services.AddPersistence(builder.Configuration.GetConnectionString("CsvParserDb"));
-builder.Services.AddScoped<IErrorLogService, ErrorLogService>();
 
 builder.Services.AddMediatR(configuration => 
 {

@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using CsvParser.Core.Configuration;
+using CsvParser.Core.Exceptions;
 using CsvParser.Core.Interfaces;
 using CsvParser.Core.Models;
 using CsvParser.Core.Validation;
@@ -24,7 +25,7 @@ internal class ValuesParser : IValuesParser
         };
     }
 
-    public IEnumerable<Value> ReadValuesFromCsv(Stream stream, string fileName, IErrorLogService logService)
+    public IEnumerable<Value> ReadValuesFromCsv(Stream stream, IErrorLogService logService)
     {
         using (var streamReader = new StreamReader(stream))
         using (var csvReader = new CsvReader(streamReader, _readerConfig))
@@ -33,26 +34,33 @@ internal class ValuesParser : IValuesParser
             while (csvReader.Read())
             {
                 Check.RowCount(csvReader.Parser.Row);
-                TryAddNewValue(values, csvReader, fileName, logService);
+                TryAddNewValue(values, csvReader, logService);
             }
             return values;
         }
     }
 
-    private void TryAddNewValue(List<Value> values, CsvReader csvReader, string fileName, IErrorLogService logService)
+    private void TryAddNewValue(List<Value> values, CsvReader csvReader, IErrorLogService logService)
     {
         try
         {
+            var dateTimeIsValid = DateTime.TryParseExact(
+                csvReader.GetField<string>(0),
+                _formatConfig.DateTimeFormat,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out DateTime dateTime);
+            if (!dateTimeIsValid)
+                throw new InvalidDateTimeException("Invalid DateTime format");
             var value = new Value(
-                fileName,
-                DateTime.ParseExact(csvReader.GetField<string>(0), _formatConfig.DateTimeFormat, CultureInfo.InvariantCulture),
+                dateTime,
                 csvReader.GetField<int>(1),
                 csvReader.GetField<float>(2));
             values.Add(value);
         }
         catch (ValidationException ex)
         {
-            logService.LogError(ex.Message, $"Row {csvReader.Parser.Row}");
+            logService.LogParsingError(ex);
         }
     }
 }

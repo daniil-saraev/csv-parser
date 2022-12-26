@@ -39,7 +39,7 @@ internal class ResultCalculator : IResultCalculator
             minIndicator,
             maxIndicator,
             rowCount) 
-            { Values = values};
+            { Values = values };
     }
 
     private int ComputeAllTimeSeconds(ImmutableList<Value> values) =>

@@ -29,7 +29,7 @@ internal static class Check
             throw new InvalidExecutionTimeException($"Invalid execution time value: {executionTimeSeconds}");
     }
 
-    public static void Indicator(double indicator)
+    public static void Indicator(float indicator)
     {
         if (indicator < MIN_INDICATOR_VALUE)
             throw new InvalidIndicatorException($"Invalid indicator value: {indicator}");

@@ -4,5 +4,5 @@ namespace CsvParser.Core.Interfaces;
 
 internal interface IValuesParser
 {
-    IEnumerable<Value> ReadValuesFromCsv(Stream stream, string fileName, IErrorLogService logService);
+    IEnumerable<Value> ReadValuesFromCsv(Stream stream, IErrorLogService logService);
 }
