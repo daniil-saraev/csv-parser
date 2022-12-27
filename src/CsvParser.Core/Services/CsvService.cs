@@ -8,24 +8,20 @@ internal class CsvService : ICsvService
     private readonly IValuesParser _valuesParser;
     private readonly IResultCalculator _resultCalculator;
     private readonly IRepository<Result> _resultsRepository;
-    private readonly IErrorLogService _logService;
 
     public CsvService(IValuesParser valuesParser, 
                     IResultCalculator resultCalculator, 
-                    IRepository<Result> resultsRepository,
-                    IErrorLogService errorLogService)
+                    IRepository<Result> resultsRepository)
     {
         _valuesParser = valuesParser;
         _resultCalculator = resultCalculator;
         _resultsRepository = resultsRepository;
-        _resultsRepository = resultsRepository;
-        _logService = errorLogService;
     }
 
     public async Task<int> ProcessCsv(Stream stream, string fileName, CancellationToken cancellationToken = default)
     {
-        var values = _valuesParser.ReadValuesFromCsv(stream, _logService);
-        var result = _resultCalculator.ComputeResult(values, fileName);
+        var parsingResult = _valuesParser.ReadValuesFromCsv(stream);
+        var result = _resultCalculator.ComputeResult(parsingResult.Values, fileName);
 
         var existingResult = (await _resultsRepository.GetEntitiesAsync(
             result => result.FileName == fileName, cancellationToken))
@@ -34,6 +30,6 @@ internal class CsvService : ICsvService
             await _resultsRepository.DeleteEntitiesAsync(new[] { existingResult }, cancellationToken);
         await _resultsRepository.AddEntitiesAsync(new[] { result }, cancellationToken);
         
-        return _logService.ErrorCount;
+        return parsingResult.ParsingErrorCount;
     }
 }

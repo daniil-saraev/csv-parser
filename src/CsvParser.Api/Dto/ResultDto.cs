@@ -9,5 +9,5 @@ public struct ResultDto
     public float IndicatorMedian { get; set; }
     public float IndicatorMinimum { get; set; }
     public float IndicatorMaximum { get; set; }
-    public int RowCount { get; }
+    public int RowCount { get; set; }
 }

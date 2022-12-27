@@ -42,27 +42,27 @@ internal class ResultCalculator : IResultCalculator
             { Values = values };
     }
 
-    private int ComputeAllTimeSeconds(ImmutableList<Value> values) =>
+    private static int ComputeAllTimeSeconds(ImmutableList<Value> values) =>
         values.Max(value => value.ExecutionTimeSeconds) - values.Min(value => value.ExecutionTimeSeconds);
 
-    private DateTime GetMinDateTime(ImmutableList<Value> values) =>
+    private static DateTime GetMinDateTime(ImmutableList<Value> values) =>
         values.Min(value => value.DateTime);
 
-    private float ComputeAverageExecutionTime(ImmutableList<Value> values) =>
+    private static float ComputeAverageExecutionTime(ImmutableList<Value> values) =>
         ((float)values.Average(value => value.ExecutionTimeSeconds));
 
-    private float ComputeAverageIndicator(ImmutableList<Value> values) =>
+    private static float ComputeAverageIndicator(ImmutableList<Value> values) =>
         values.Average(value => value.Indicator);
 
-    private float ComputeIndicatorMedian(ImmutableList<Value> values) =>
+    private static float ComputeIndicatorMedian(ImmutableList<Value> values) =>
         values.Select(value => value.Indicator).Median();
 
-    private float GetMaxIndicator(ImmutableList<Value> values) =>
+    private static float GetMaxIndicator(ImmutableList<Value> values) =>
         values.Max(value => value.Indicator);
 
-    private float GetMinIndicator(ImmutableList<Value> values) =>
+    private static float GetMinIndicator(ImmutableList<Value> values) =>
         values.Min(value => value.Indicator);
 
-    private int CountRows(ImmutableList<Value> values) =>
+    private static int CountRows(ImmutableList<Value> values) =>
         values.Count;
 }

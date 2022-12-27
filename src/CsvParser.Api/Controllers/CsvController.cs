@@ -7,7 +7,7 @@ using CsvParser.Api.Responses;
 namespace CsvParser.Api.Controllers;
 
 [ApiController]
-[Route("api")]
+[Route("csv")]
 [Produces(MediaTypeNames.Application.Json)]
 [ProducesResponseType(StatusCodes.Status200OK)]
 [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -69,23 +69,23 @@ public class CsvController : ControllerBase
     }
 
     [HttpGet("results/{filename}")]
-    public async Task<ActionResult<SelectedResults>> GetResultsByFileName(string fileName, CancellationToken cancellationToken)
+    public async Task<ActionResult<SelectedResults>> GetResultsByFileName(string filename, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(
             new GetResultsByFileName 
             { 
-                FileName = fileName 
+                FileName = filename 
             }, cancellationToken);
         return Ok(response);
     }
 
     [HttpGet("values/{filename}")]
-    public async Task<ActionResult<SelectedValues>> GetValuesByFileName(string fileName, CancellationToken cancellationToken)
+    public async Task<ActionResult<SelectedValues>> GetValuesByFileName(string filename, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(
             new GetValuesByFileName 
             { 
-                FileName = fileName 
+                FileName = filename 
             }, cancellationToken);
         return Ok(response);
     }

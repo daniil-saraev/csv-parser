@@ -25,10 +25,8 @@ internal class GetValuesHandler : IRequestHandler<GetValuesByFileName, SelectedV
         return CreateResponse(values);
     }
 
-    private SelectedValues CreateResponse(IEnumerable<Value>? values)
+    private SelectedValues CreateResponse(IEnumerable<Value> values)
     {
-        if(values == null)
-            return new SelectedValues { Values = new List<ValueDto>() };
         return new SelectedValues
         {
             Values = values.Select(value => new ValueDto

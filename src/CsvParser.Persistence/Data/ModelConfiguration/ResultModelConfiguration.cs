@@ -11,7 +11,7 @@ internal class ResultModelConfiguration : IEntityTypeConfiguration<Result>
         builder.HasKey(result => result.Id);
         builder.Property(result => result.Id).HasDefaultValueSql("NEWID()");
         builder.HasAlternateKey(result => result.FileName);
-        builder.Property(result => result.AllTimeSeconds)
+        builder.Property(result => result.AllExecutionTimeSeconds)
             .IsRequired();
         builder.Property(result => result.MinimalDateTime)
             .IsRequired()

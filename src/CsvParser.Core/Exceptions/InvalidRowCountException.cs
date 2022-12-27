@@ -3,7 +3,9 @@
 [Serializable]
 public class InvalidRowCountException : ValidationException
 {
-	public InvalidRowCountException() { }
+	private const string MESSAGE = "Invalid number of rows";
+
+    public InvalidRowCountException() : base(MESSAGE) { }
 	public InvalidRowCountException(string message) : base(message) { }
 	public InvalidRowCountException(string message, Exception inner) : base(message, inner) { }
 	protected InvalidRowCountException(

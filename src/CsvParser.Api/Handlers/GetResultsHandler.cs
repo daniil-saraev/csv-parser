@@ -58,21 +58,20 @@ internal class GetResultsHandler : IRequestHandler<GetResultsByAverageExecutionT
         return CreateResponse(results);
     }
 
-    private SelectedResults CreateResponse(IEnumerable<Result>? results)
+    private SelectedResults CreateResponse(IEnumerable<Result> results)
     {
-        if(results == null)
-            return new SelectedResults { Results = new List<ResultDto>() };
         return new SelectedResults
         {
             Results = results.Select(result => new ResultDto
             {
-                AllTimeSeconds = result.AllTimeSeconds,
+                AllTimeSeconds = result.AllExecutionTimeSeconds,
                 AverageExecutionTimeSeconds = result.AverageExecutionTimeSeconds,
                 IndicatorAverage = result.IndicatorAverage,
                 IndicatorMaximum = result.IndicatorMaximum,
-                IndicatorMedian = result.IndicatorMinimum,
+                IndicatorMedian = result.IndicatorMedian,
                 IndicatorMinimum = result.IndicatorMinimum,
-                MinimalDateTime = result.MinimalDateTime
+                MinimalDateTime = result.MinimalDateTime,
+                RowCount = result.RowCount
             })
         }; 
     }

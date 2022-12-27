@@ -4,7 +4,7 @@ public class Result : Entity
 {
     public string FileName { get; }
     public IEnumerable<Value> Values { get; init; } = null!;
-    public int AllTimeSeconds { get; }
+    public int AllExecutionTimeSeconds { get; }
     public DateTime MinimalDateTime { get; }
     public float AverageExecutionTimeSeconds { get; }
     public float IndicatorAverage { get; }
@@ -15,7 +15,7 @@ public class Result : Entity
 
     public Result(
         string fileName,
-        int allTimeSeconds,
+        int allExecutionTimeSeconds,
         DateTime minimalDateTime,
         float averageExecutionTimeSeconds,
         float indicatorAverage,
@@ -25,7 +25,7 @@ public class Result : Entity
         int rowCount)
     {
         FileName = fileName;
-        AllTimeSeconds = allTimeSeconds;
+        AllExecutionTimeSeconds = allExecutionTimeSeconds;
         MinimalDateTime = minimalDateTime;
         AverageExecutionTimeSeconds = averageExecutionTimeSeconds;
         IndicatorAverage = indicatorAverage;
