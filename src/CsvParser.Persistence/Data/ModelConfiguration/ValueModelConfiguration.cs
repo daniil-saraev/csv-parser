@@ -1,7 +1,7 @@
 ﻿using CsvParser.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static CsvParser.Core.Validation.Valid;
+using static CsvParser.Core.Validation.Valid.Constraints;
 
 namespace CsvParser.Persistence.Data;
 
@@ -10,12 +10,17 @@ internal class ValueModelConfiguration : IEntityTypeConfiguration<Value>
     public void Configure(EntityTypeBuilder<Value> builder)
     {
         builder.HasKey(value => value.Id);
-        builder.Property(value => value.Id).HasDefaultValueSql("NEWID()");
+        builder.Property(value => value.Id)
+            .HasDefaultValueSql("NEWID()");
+        builder.Property(value => value.FileName)
+            .IsRequired()
+            .HasMaxLength(256);
         builder.HasIndex(value => value.FileName);
         builder.Property(value => value.DateTime)
             .IsRequired()
             .HasColumnType("DATETIME2(0)");
-        builder.Property(value => value.ExecutionTimeSeconds).IsRequired();
+        builder.Property(value => value.ExecutionTimeSeconds)
+            .IsRequired();
         builder.Property(value => value.Indicator)
             .IsRequired()
             .HasColumnType("DECIMAL(10,4)");

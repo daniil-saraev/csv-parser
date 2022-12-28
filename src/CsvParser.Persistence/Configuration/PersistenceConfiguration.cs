@@ -10,6 +10,10 @@ namespace CsvParser.Persistence.Configuration;
 
 public static class PersistenceConfiguration
 {
+    /// <summary>
+    /// Registers DbContext and all associated services. If <paramref name="connectionString"/>
+    /// is null, sets in-memory database.
+    /// </summary>
     public static void AddPersistence(this IServiceCollection services, string? connectionString)
     {
         services.AddDbContext<DataContext>(options =>
@@ -24,6 +28,9 @@ public static class PersistenceConfiguration
         services.AddScoped<IRepository<Result>, Repository<Result>>();
     }
 
+    /// <summary>
+    /// Calls EnsureDeleted() then EnsureCreated().
+    /// </summary>
     public static void UseCleanDatabase(this IHost host)
     {
         using (var scope = host.Services.CreateScope())
@@ -35,6 +42,9 @@ public static class PersistenceConfiguration
         }
     }
 
+    /// <summary>
+    /// Calls EnsureCreated() only.
+    /// </summary>
     public static void UseExistingDatabase(this IHost host)
     {
         using (var scope = host.Services.CreateScope())

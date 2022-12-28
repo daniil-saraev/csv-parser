@@ -13,7 +13,7 @@ public class Result : Entity
     public float IndicatorMaximum { get; }
     public int RowCount { get; }
 
-    public Result(
+    internal Result(
         string fileName,
         int allExecutionTimeSeconds,
         DateTime minimalDateTime,

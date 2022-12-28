@@ -5,6 +5,9 @@ using System.Collections.Immutable;
 
 namespace CsvParser.Core.Services;
 
+/// <summary>
+/// <inheritdoc cref="IResultCalculator"/>
+/// </summary>
 internal class ResultCalculator : IResultCalculator
 {
     public Result ComputeResult(IEnumerable<Value> values, string fileName)

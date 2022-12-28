@@ -35,8 +35,14 @@ internal class ExceptionHandler
         {
             case ValidationException:
                 context.Response.ContentType = MediaTypeNames.Application.Json;
-                var badResult = new BadRequestObjectResult(exception.Message);
-                return context.Response.WriteAsJsonAsync(badResult);
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                var problemDetails = new ProblemDetails
+                {
+                    Title = nameof(ValidationException),
+                    Status = (int)HttpStatusCode.BadRequest,
+                    Detail = exception.Message 
+                };
+                return context.Response.WriteAsJsonAsync(problemDetails);
             default:
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return context.Response.StartAsync();

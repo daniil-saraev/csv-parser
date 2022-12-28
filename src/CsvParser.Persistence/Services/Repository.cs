@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CsvParser.Persistence.Services
 {
+    /// <summary>
+    /// <inheritdoc cref="IRepository{T}"/>
+    /// </summary>
     internal class Repository<T> : IRepository<T> where T : Entity
     {
         public readonly DataContext _dataContext;

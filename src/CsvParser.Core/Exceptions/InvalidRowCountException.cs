@@ -3,7 +3,7 @@
 [Serializable]
 public class InvalidRowCountException : ValidationException
 {
-	private const string MESSAGE = "Invalid number of rows";
+	private const string MESSAGE = "Invalid number of records";
 
     public InvalidRowCountException() : base(MESSAGE) { }
 	public InvalidRowCountException(string message) : base(message) { }

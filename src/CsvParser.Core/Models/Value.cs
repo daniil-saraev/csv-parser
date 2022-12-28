@@ -7,7 +7,7 @@ public class Value : Entity
     public int ExecutionTimeSeconds { get; }
     public float Indicator { get; }
 
-    public Value(DateTime dateTime, int executionTimeSeconds, float indicator)
+    internal Value(DateTime dateTime, int executionTimeSeconds, float indicator)
     {
         DateTime = dateTime;
         ExecutionTimeSeconds = executionTimeSeconds;

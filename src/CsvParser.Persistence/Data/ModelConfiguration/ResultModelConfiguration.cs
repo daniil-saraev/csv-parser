@@ -9,8 +9,11 @@ internal class ResultModelConfiguration : IEntityTypeConfiguration<Result>
     public void Configure(EntityTypeBuilder<Result> builder)
     {
         builder.HasKey(result => result.Id);
-        builder.Property(result => result.Id).HasDefaultValueSql("NEWID()");
+        builder.Property(result => result.Id)
+            .HasDefaultValueSql("NEWID()");
         builder.HasAlternateKey(result => result.FileName);
+        builder.Property(result => result.FileName)
+            .HasMaxLength(256);
         builder.Property(result => result.AllExecutionTimeSeconds)
             .IsRequired();
         builder.Property(result => result.MinimalDateTime)

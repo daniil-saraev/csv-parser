@@ -1,5 +1,8 @@
 ﻿namespace CsvParser.Core.Exceptions;
 
+/// <summary>
+/// Base class for all domain validation exceptions.
+/// </summary>
 public abstract class ValidationException : Exception
 {
 	public ValidationException() { }
