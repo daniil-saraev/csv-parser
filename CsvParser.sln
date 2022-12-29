@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvParser.Core", "src\CsvPa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsvParser.Persistence", "src\CsvParser.Persistence\CsvParser.Persistence.csproj", "{C5D2E187-57D8-4CD4-B758-B8C5B6C833EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D2092A08-536F-49C5-82EE-E25999A2E815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Tests", "Tests\Core.Tests\Core.Tests.csproj", "{A86F48E7-E5E2-4FB6-AA21-1CCDF682A8A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{C5D2E187-57D8-4CD4-B758-B8C5B6C833EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5D2E187-57D8-4CD4-B758-B8C5B6C833EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5D2E187-57D8-4CD4-B758-B8C5B6C833EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A86F48E7-E5E2-4FB6-AA21-1CCDF682A8A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A86F48E7-E5E2-4FB6-AA21-1CCDF682A8A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A86F48E7-E5E2-4FB6-AA21-1CCDF682A8A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A86F48E7-E5E2-4FB6-AA21-1CCDF682A8A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +45,7 @@ Global
 		{5DA2D6CB-1E3E-4396-A94B-277FB91DC6DD} = {3522E825-C13E-4D7D-BF17-B7F18295FEED}
 		{ABCE57C7-F6CA-42B5-A81E-88DD9B3900A2} = {3522E825-C13E-4D7D-BF17-B7F18295FEED}
 		{C5D2E187-57D8-4CD4-B758-B8C5B6C833EB} = {3522E825-C13E-4D7D-BF17-B7F18295FEED}
+		{A86F48E7-E5E2-4FB6-AA21-1CCDF682A8A4} = {D2092A08-536F-49C5-82EE-E25999A2E815}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25376703-7150-4A11-9E4D-3E7E4B44C2FC}

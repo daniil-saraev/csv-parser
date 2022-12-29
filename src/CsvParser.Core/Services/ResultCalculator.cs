@@ -52,7 +52,7 @@ internal class ResultCalculator : IResultCalculator
         values.Min(value => value.DateTime);
 
     private static float ComputeAverageExecutionTime(ImmutableList<Value> values) =>
-        ((float)values.Average(value => value.ExecutionTimeSeconds));
+        (float)values.Average(value => value.ExecutionTimeSeconds);
 
     private static float ComputeAverageIndicator(ImmutableList<Value> values) =>
         values.Average(value => value.Indicator);

@@ -48,12 +48,12 @@ internal class ValuesParser : IValuesParser
 
     private void TryAddNewValue(List<Value> values, CsvReader csvReader)
     {
-        var dateTimeIsValid = TryParseDateTime(csvReader.GetField<string>(0), out var dateTime);
+        var dateTimeFormatIsValid = TryParseDateTime(csvReader.GetField<string>(0), out var dateTime);
         var executionTimeSeconds = csvReader.GetField<int>(1);
         var indicator = csvReader.GetField<float>(2);
 
         // Check if any of the values are invalid
-        if (!dateTimeIsValid || !ValidFields(dateTime, executionTimeSeconds, indicator))
+        if (!dateTimeFormatIsValid || !ValidFields(dateTime, executionTimeSeconds, indicator))
             _errorCount++;
         else
             values.Add(new Value(
