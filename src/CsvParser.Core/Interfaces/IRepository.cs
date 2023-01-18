@@ -1,4 +1,5 @@
 using CsvParser.Core.Models;
+using System.Linq.Expressions;
 
 namespace CsvParser.Core.Interfaces;
 
@@ -13,7 +14,7 @@ public interface IRepository<T> where T : Entity
     /// </summary>
     /// <param name="predicate">A query filter.</param>
     /// <returns>A collection of entities.</returns>
-    Task<IEnumerable<T>> GetEntitiesAsync(Func<T, bool>? predicate = null, CancellationToken cancellationToken = default);
+    Task<IEnumerable<T>> GetEntitiesAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds entities to database.

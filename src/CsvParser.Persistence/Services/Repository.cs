@@ -2,6 +2,7 @@
 using CsvParser.Core.Models;
 using CsvParser.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace CsvParser.Persistence.Services
 {
@@ -29,10 +30,10 @@ namespace CsvParser.Persistence.Services
             await _dataContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<T>> GetEntitiesAsync(Func<T, bool>? predicate = null, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<T>> GetEntitiesAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default)
         {
             if (predicate != null)
-                return _dataContext.Set<T>().Where(predicate);
+                return await _dataContext.Set<T>().Where(predicate).ToListAsync(cancellationToken);
             else
                 return await _dataContext.Set<T>().ToListAsync(cancellationToken);
         }
